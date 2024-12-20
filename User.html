@@ -44,21 +44,12 @@
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
-        
+     
       </ul>
 
-      <!-- Right navbar links -->
-      <ul class="navbar-nav ml-auto">
-        <!-- Navbar Search -->
-        <li class="nav-item">
-          <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-            <p>logout </p>
-          </a>
-         
-        </li>
+     
 
-        
-      </ul>
+
     </nav>
     <!-- /.navbar -->
 
@@ -101,33 +92,16 @@
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item menu-open">
-              <!-- <a href="#" class="nav-link active">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                  Dashboard
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a> -->
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="./index.html" class="nav-link active">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Menu Pesanan</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="./index2.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Menu transaksi</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="./index3.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>tambah minuman</p>
-                  </a>
-                </li>
-              </ul>
+            
+            </li>
+            <li class="nav-item">
+              <a href="" class="nav-link">
+                <p>Logout</p>
+              </a>
+              </a>
+            </li>
+          </ul>
+        </nav>
         <!-- /.sidebar-menu -->
       </div>
       <!-- /.sidebar -->
@@ -140,7 +114,7 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Menu Transaksi</h1>
+              <h1 class="m-0"></h1>
             </div><!-- /.col -->
 
           </div><!-- /.row -->
@@ -151,64 +125,137 @@
       <!-- Main content -->
       <section class="content">
         <div class="container-fluid">
-          <a href=""><button class="btn btn-primary">Kembali</button></a>
-
-          <div class="row my-4">
-            <div class="col-12">
-              <div class="card">
-                <div class="card-header">
-                  <h3 class="card-title">Menu Transaksi</h3>
-
-                  <div class="card-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
-                      <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                      <div class="input-group-append">
-                        <button type="submit" class="btn btn-default">
-                          <i class="fas fa-search"></i>
-                        </button>
-                      </div>
-                    </div>
+          <h2 class="text-center display-4">Cari</h2>
+          <div class="row">
+            <div class="col-md-8 offset-md-2">
+              <form action="simple-results.html">
+                <div class="input-group">
+                  <input type="search" class="form-control form-control-lg" placeholder="Type your keywords here">
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-lg btn-default">
+                      <i class="fa fa-search"></i>
+                    </button>
                   </div>
                 </div>
-                <!-- /.card-header -->
-                <div class="card-body table-responsive p-0" style="height: 300px;">
-                  <table class="table table-head-fixed text-nowrap">
-                    <thead>
-                      <tr>
-                        <th>Nomor</th>
-                        <th>Kode Pesanan</th>
-                        <th>Nama pelangggan</th>
-                        <th>Waktu</th>
-                        <th>Total harga</th>
-                        <th>Pembayaran</th>
-                        <th>Cetak</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>6.xxxxxx</td>
-                        <td>Fiqih</td>
-                        <td><span class="tag tag-success">2024-12-3 12:00</span></td>
-                        <td>40.000</td>
-                        <td></td>
-                        <td>
-                          <button class="btn btn-info">Cetak</button>
-                          <button class="btn btn-danger">hapus</button>
-                        </td>
-                      </tr>
-                    
-                    </tbody>
-                  </table>
-                </div>
-                <!-- /.card-body -->
-              </div>
-              <!-- /.card -->
+              </form>
             </div>
           </div>
 
+          <div class="input-group input-group-xl my-4 ">
+                  <input type="text" class="form-control">
+                  <span class="input-group-append">
+                    <button type="button" class="btn btn-info btn-flat">Pesan</button>
+                  </span>
+                </div>
 
+          <div class="row ">
+
+              <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-info">
+                    <img src="./asset/logo.jpeg" alt="">
+                  </i></span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">Es Teh Solo</span>
+                    <span class="info-box-number">Rp 5,410</span>
+                    <p>Lorem ipsum dolor sit.</p>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+              <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-info">
+                    <img src="./asset/logo.jpeg" alt="">
+                  </i></span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">Es Teh Solo</span>
+                    <span class="info-box-number">Rp 5,410</span>
+                    <p>Lorem ipsum dolor sit.</p>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+              <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-info">
+                    <img src="./asset/logo.jpeg" alt="">
+                  </i></span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">Es Teh Solo</span>
+                    <span class="info-box-number">Rp 5,410</span>
+                    <p>Lorem ipsum dolor sit.</p>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+              <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-info">
+                    <img src="./asset/logo.jpeg" alt="">
+                  </i></span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">Es Teh Solo</span>
+                    <span class="info-box-number">Rp 5,410</span>
+                    <p>Lorem ipsum dolor sit.</p>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+              <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-info">
+                    <img src="./asset/logo.jpeg" alt="">
+                  </i></span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">Es Teh Solo</span>
+                    <span class="info-box-number">Rp 5,410</span>
+                    <p>Lorem ipsum dolor sit.</p>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+              <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-info">
+                    <img src="./asset/logo.jpeg" alt="">
+                  </i></span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">Es Teh Solo</span>
+                    <span class="info-box-number">Rp 5,410</span>
+                    <p>Lorem ipsum dolor sit.</p>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+              <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-info">
+                    <img src="./asset/logo.jpeg" alt="">
+                  </i></span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">Es Teh Solo</span>
+                    <span class="info-box-number">Rp 5,410</span>
+                    <p>Lorem ipsum dolor sit.</p>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+          </div>
         </div>
       </section>
       <!-- /.content -->
