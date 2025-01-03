@@ -1,3 +1,32 @@
+<?php
+session_start();
+
+require_once "koneksi.php";
+
+if(!$_SESSION['user']['role'] == 'admin') {
+   Header('Location: login.php');
+   exit();
+}
+
+
+
+if(isset($_POST['tambah'])) {
+  $nama = $_POST['nama'];
+  $harga = $_POST['harga'];
+  $stock = $_POST['stock'];
+
+  $query = mysqli_query($konek, "INSERT INTO produk (nama,harga,stock) VALUES('$nama','$harga','$stock')");
+
+  if($query) {
+    $message = 'produk berhasil di tambah ';
+  }else {
+    $error = 'produk gagal di tambah';
+  }
+}
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,20 +73,19 @@
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
-        
+      
       </ul>
 
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
         <!-- Navbar Search -->
         <li class="nav-item">
-          <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-            <p>logout </p>
+          <a class="nav-link"  href="logout.php" >
+            <p>Logout</p>
           </a>
-         
+     
         </li>
 
-        
       </ul>
     </nav>
     <!-- /.navbar -->
@@ -83,19 +111,6 @@
           </div>
         </div>
 
-        <!-- SidebarSearch Form -->
-        <div class="form-inline">
-          <div class="input-group" data-widget="sidebar-search">
-            <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-            <div class="input-group-append">
-              <button class="btn btn-sidebar">
-                <i class="fas fa-search fa-fw"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Sidebar Menu -->
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
@@ -110,19 +125,25 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="./menu_pesanan.html" class="nav-link active">
+                  <a href="./dashboard.php" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Dashboard</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="./menu_pesanan.php" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Menu Pesanan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="./menu_transaksi.html" class="nav-link">
+                  <a href="./menu_transaksi.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Menu transaksi </p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="./tambah_minuman.html" class="nav-link">
+                  <a href="./tambah_minuman.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Tambah minuman / produk</p>
                   </a>
@@ -132,9 +153,8 @@
            
           </ul>
         </nav> 
-        <!-- /.sidebar-menu -->
-      </div>
-      <!-- /.sidebar -->
+        </div>
+        
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
@@ -144,7 +164,7 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Menu Transaksi</h1>
+              <h1 class="m-0">Tambah Data Minuman</h1>
             </div><!-- /.col -->
 
           </div><!-- /.row -->
@@ -157,80 +177,67 @@
         <div class="container-fluid">
           <a href=""><button class="btn btn-primary">Kembali</button></a>
 
-          <div class="row my-4">
-            <div class="col-12">
-              <div class="card">
-                <div class="card-header">
-                  <h3 class="card-title">Menu Transaksi</h3>
+          <?php if(isset($message)) : ?>
+            <div class="alert alert-info my-1"><?= $message ?> </div>
+          <?php elseif(isset($error)) : ?>
+            <div class="alert alert-danger my-1"><?= $error ?></div>
+          <?php endif; ?>
 
-                  <div class="card-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
-                      <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                      <div class="input-group-append">
-                        <button type="submit" class="btn btn-default">
-                          <i class="fas fa-search"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body table-responsive p-0" style="height: 300px;">
-                  <table class="table table-head-fixed text-nowrap">
-                    <thead>
-                      <tr>
-                        <th>Nomor</th>
-                        <th>Kode Pesanan</th>
-                        <th>Nama pelangggan</th>
-                        <th>Waktu</th>
-                        <th>Total harga</th>
-                        <th>Pembayaran</th>
-                        <th>Cetak</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>6.xxxxxx</td>
-                        <td>Fiqih</td>
-                        <td><span class="tag tag-success">2024-12-3 12:00</span></td>
-                        <td>40.000</td>
-                        <td></td>
-                        <td>
-                          <button class="btn btn-info">Cetak</button>
-                          <button class="btn btn-danger">hapus</button>
-                        </td>
-                      </tr>
-                    
-                    </tbody>
-                  </table>
-                </div>
-                <!-- /.card-body -->
-              </div>
-              <!-- /.card -->
+          <!-- general form elements -->
+          <div class="card card-primary my-4 ">
+            <div class="card-header">
+              <h3 class="card-title">Tambah Data </h3>
             </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form method="post" action="">
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Nama</label>
+                  <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="nama">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Harga</label>
+                  <input type="number" class="form-control" id="exampleInputPassword1" placeholder="" name="harga">
+                </div>
+
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Stock</label>
+                  <input type="number" class="form-control" id="exampleInputPassword1" placeholder="" name="stock">
+                </div>
+
+
+              </div>
+
+
+
           </div>
+          <!-- /.card-body -->
 
-
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary" name="tambah">Tambah</button>
+          </div>
+          </form>
         </div>
-      </section>
-      <!-- /.content -->
+        <!-- /.card -->
     </div>
-    <!-- /.content-wrapper -->
-    <footer class="main-footer">
-      <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-      All rights reserved.
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 3.2.0-rc
-      </div>
-    </footer>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 3.2.0-rc
+    </div>
+  </footer>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
   </div>
   <!-- ./wrapper -->
 

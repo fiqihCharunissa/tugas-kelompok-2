@@ -1,3 +1,17 @@
+<?php
+session_start();
+require_once "koneksi.php";
+
+if(!$_SESSION['user']['role'] == 'admin') {
+   Header('Location: login.php');
+   exit();
+}
+
+$query = mysqli_query($konek, 'select *  from pesanan JOIN User  ON pesanan.user_id = User.id Join produk ON pesanan.produk_id = produk.id');
+
+$result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,7 +65,7 @@
       <ul class="navbar-nav ml-auto">
         <!-- Navbar Search -->
         <li class="nav-item">
-          <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+          <a class="nav-link"  href="logout.php">
             <p>Logout</p>
           </a>
         </li>
@@ -97,19 +111,25 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="./menu_pesanan.html" class="nav-link active">
+                  <a href="./dashboard.php" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Dashboard</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="./menu_pesanan.php" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Menu Pesanan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="./menu_transaksi.html" class="nav-link">
+                  <a href="./menu_transaksi.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Menu transaksi </p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="./tambah_minuman.html" class="nav-link">
+                  <a href="./tambah_minuman.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Tambah minuman / produk</p>
                   </a>
@@ -170,18 +190,18 @@
                         <th>Nomor</th>
                         <th>Kode Pesanan</th>
                         <th>Nama pelangggan</th>
-                        <th>Kode Menu</th>
-                        <th>quantity</th>
+                        <th>Menu</th>
                       </tr>
                     </thead>
                     <tbody>
+                      <?php foreach($result as $pesanan) : ?>
                       <tr>
                         <td>1</td>
-                        <td>6.xxxxxx</td>
-                        <td>Fiqih</td>
-                        <td><span class="tag tag-success">MIn50</span></td>
-                        <td>5</td>
+                        <td><?= $pesanan['kode_pesanan'] ?></td>
+                        <td><?= $pesanan['username'] ?></td>
+                        <td><span class="tag tag-success"><?= $pesanan['nama'] ?></span></td>
                       </tr>
+                      <?php endforeach; ?>
 
                     </tbody>
                   </table>

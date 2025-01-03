@@ -1,3 +1,21 @@
+<?php
+session_start();
+require_once "koneksi.php";
+
+if(!$_SESSION['user']['role'] == 'admin') {
+   Header('Location: login.php');
+   exit();
+}
+
+
+$query = mysqli_query($konek, 'select *  from transaksi JOIN User  ON transaksi.user_id = User.id Join produk ON transaksi.produk_id = produk.id');
+
+$result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+// var_dump($result);
+// die;
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,9 +62,21 @@
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
+        
       </ul>
 
-    
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <!-- Navbar Search -->
+        <li class="nav-item">
+          <a class="nav-link"  href="logout.php" >
+            <p>logout </p>
+          </a>
+         
+        </li>
+
+        
+      </ul>
     </nav>
     <!-- /.navbar -->
 
@@ -71,7 +101,17 @@
           </div>
         </div>
 
-    
+        <!-- SidebarSearch Form -->
+        <div class="form-inline">
+          <div class="input-group" data-widget="sidebar-search">
+            <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+            <div class="input-group-append">
+              <button class="btn btn-sidebar">
+                <i class="fas fa-search fa-fw"></i>
+              </button>
+            </div>
+          </div>
+        </div>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
@@ -88,19 +128,25 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="./menu_pesanan.html" class="nav-link active">
+                  <a href="./dashboard.php" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Dashboard</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="./menu_pesanan.php" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Menu Pesanan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="./menu_transaksi.html" class="nav-link">
+                  <a href="./menu_transaksi.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Menu transaksi </p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="./tambah_minuman.html" class="nav-link">
+                  <a href="./tambah_minuman.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Tambah minuman / produk</p>
                   </a>
@@ -109,7 +155,7 @@
             </li>
            
           </ul>
-        </nav>
+        </nav> 
         <!-- /.sidebar-menu -->
       </div>
       <!-- /.sidebar -->
@@ -122,14 +168,9 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Dashboard</h1>
+              <h1 class="m-0">Menu Transaksi</h1>
             </div><!-- /.col -->
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard v1</li>
-              </ol>
-            </div><!-- /.col -->
+
           </div><!-- /.row -->
         </div><!-- /.container-fluid -->
       </div>
@@ -138,61 +179,77 @@
       <!-- Main content -->
       <section class="content">
         <div class="container-fluid">
-          <!-- Small boxes (Stat box) -->
-          <div class="row">
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-warning">
-                <div class="inner">
-                  <h3>150</h3>
+          <a href=""><button class="btn btn-primary">Kembali</button></a>
 
-                  <p>Produk terjual</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-bag"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-            </div>
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>150</h3>
+          <div class="row my-4">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Menu Transaksi</h3>
 
-                  <p>Jumlah Produk</p>
+                  <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                      <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                      <div class="input-group-append">
+                        <button type="submit" class="btn btn-default">
+                          <i class="fas fa-search"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="icon">
-                  <i class="ion ion-bag"></i>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive p-0" style="height: 300px;">
+                  <table class="table table-head-fixed text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>Nomor</th>
+                        <th>Kode Pesanan</th>
+                        <th>Nama pelangggan</th>
+                        <th>Waktu</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php 
+                      $no = 1; 
+                      foreach($result as $transaksi) : ?>
+                      <tr>
+                        <td><?= $no++ ?></td>
+                        <td><?= $transaksi['kode_pesanan'] ?></td>
+                        <td><?= $transaksi['username']?></td>
+                        <td><span class="tag tag-success"><?= $transaksi['waktu'] ?></span></td>
+                      </tr>
+                      <?php endforeach; ?>
+                    
+                    </tbody>
+                  </table>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <!-- /.card-body -->
               </div>
+              <!-- /.card -->
             </div>
-            <!-- ./col -->
           </div>
-          <!-- ./col -->
+
+
         </div>
-        <!-- /.row -->
-
-        <!-- /.row (main row) -->
-    </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0-rc
+      </section>
+      <!-- /.content -->
     </div>
-  </footer>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+      <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+      All rights reserved.
+      <div class="float-right d-none d-sm-inline-block">
+        <b>Version</b> 3.2.0-rc
+      </div>
+    </footer>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
   </div>
   <!-- ./wrapper -->
 

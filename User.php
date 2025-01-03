@@ -1,3 +1,35 @@
+<?php
+session_start();
+require_once "koneksi.php";
+
+
+if (!$_SESSION['user']['role'] == 'user') {
+  Header('Location: dashboard.php');
+  exit();
+}
+
+$query = mysqli_query($konek, 'SELECT * FROM produk ');
+
+$produks = mysqli_fetch_all($query, MYSQLI_ASSOC);
+
+
+if (isset($_POST['beli'])) {
+  $id = $_POST['id'];
+  $kode = uniqid();
+  $user = $_SESSION['user']['id'];
+  $transaksi = mysqli_query($konek, "INSERT INTO  transaksi(kode_pesanan,user_id,produk_id) VALUES('$kode','$user','$id')");
+  $pesanan = mysqli_query($konek, "INSERT INTO  pesanan(kode_pesanan,user_id,produk_id) VALUES('$kode','$user','$id')");
+
+  if ($transaksi) {
+    $message = 'pembelian berhasil';
+  } else {
+    $error = 'pembelian gagal';
+  }
+}
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,10 +76,10 @@
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
-     
+
       </ul>
 
-     
+
 
 
     </nav>
@@ -92,10 +124,10 @@
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item menu-open">
-            
+
             </li>
             <li class="nav-item">
-              <a href="" class="nav-link">
+              <a href="logout.php" class="nav-link">
                 <p>Logout</p>
               </a>
               </a>
@@ -142,121 +174,41 @@
           </div>
 
           <div class="input-group input-group-xl my-4 ">
-                  <input type="text" class="form-control">
-                  <span class="input-group-append">
-                    <button type="button" class="btn btn-info btn-flat">Pesan</button>
-                  </span>
-                </div>
+            <input type="text" class="form-control">
+            <span class="input-group-append">
+              <button type="button" class="btn btn-info btn-flat">Pesan</button>
+            </span>
+          </div>
 
+          <?php if (isset($message)) : ?>
+            <div class="alert alert-info my-1"><?= $message ?> </div>
+          <?php elseif (isset($error)) : ?>
+            <div class="alert alert-danger my-1"><?= $error ?></div>
+          <?php endif; ?>
           <div class="row ">
 
+            <?php foreach ($produks as $produk) : ?>
               <div class="col-md-3 col-sm-6 col-12">
                 <div class="info-box">
                   <span class="info-box-icon bg-info">
-                    <img src="./asset/logo.jpeg" alt="">
-                  </i></span>
+                    <!-- <img src="./asset/logo.jpeg" alt=""> -->
+                    </i></span>
 
                   <div class="info-box-content">
-                    <span class="info-box-text">Es Teh Solo</span>
-                    <span class="info-box-number">Rp 5,410</span>
-                    <p>Lorem ipsum dolor sit.</p>
+                    <span class="info-box-text"><?= $produk['nama'] ?></span>
+                    <span class="info-box-number"><?= $produk['harga'] ?></span>
+                    <p>stock : <?= $produk['stock'] ?></p>
+
+                    <form action="" method="post">
+                      <input type="hidden" name="id" value="<?= $produk['id'] ?>">
+                      <button type='submit' class="btn btn-primary" name="beli">Beli</button>
+                    </form>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
-                <!-- /.info-box -->
-            </div>
-              <div class="col-md-3 col-sm-6 col-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-info">
-                    <img src="./asset/logo.jpeg" alt="">
-                  </i></span>
-
-                  <div class="info-box-content">
-                    <span class="info-box-text">Es Teh Solo</span>
-                    <span class="info-box-number">Rp 5,410</span>
-                    <p>Lorem ipsum dolor sit.</p>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </div>
-              <div class="col-md-3 col-sm-6 col-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-info">
-                    <img src="./asset/logo.jpeg" alt="">
-                  </i></span>
-
-                  <div class="info-box-content">
-                    <span class="info-box-text">Es Teh Solo</span>
-                    <span class="info-box-number">Rp 5,410</span>
-                    <p>Lorem ipsum dolor sit.</p>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </div>
-              <div class="col-md-3 col-sm-6 col-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-info">
-                    <img src="./asset/logo.jpeg" alt="">
-                  </i></span>
-
-                  <div class="info-box-content">
-                    <span class="info-box-text">Es Teh Solo</span>
-                    <span class="info-box-number">Rp 5,410</span>
-                    <p>Lorem ipsum dolor sit.</p>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </div>
-              <div class="col-md-3 col-sm-6 col-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-info">
-                    <img src="./asset/logo.jpeg" alt="">
-                  </i></span>
-
-                  <div class="info-box-content">
-                    <span class="info-box-text">Es Teh Solo</span>
-                    <span class="info-box-number">Rp 5,410</span>
-                    <p>Lorem ipsum dolor sit.</p>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </div>
-              <div class="col-md-3 col-sm-6 col-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-info">
-                    <img src="./asset/logo.jpeg" alt="">
-                  </i></span>
-
-                  <div class="info-box-content">
-                    <span class="info-box-text">Es Teh Solo</span>
-                    <span class="info-box-number">Rp 5,410</span>
-                    <p>Lorem ipsum dolor sit.</p>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </div>
-              <div class="col-md-3 col-sm-6 col-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-info">
-                    <img src="./asset/logo.jpeg" alt="">
-                  </i></span>
-
-                  <div class="info-box-content">
-                    <span class="info-box-text">Es Teh Solo</span>
-                    <span class="info-box-number">Rp 5,410</span>
-                    <p>Lorem ipsum dolor sit.</p>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </div>
+              </div>
+            <?php endforeach; ?>
           </div>
-        </div>
       </section>
       <!-- /.content -->
     </div>

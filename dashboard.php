@@ -1,3 +1,22 @@
+<?php
+session_start();
+require_once 'koneksi.php';
+
+if (!$_SESSION['user']['role'] == 'admin') {
+  Header('Location: login.php');
+  exit();
+}
+
+
+$produk = mysqli_query($konek, 'SELECT count(*) as jumlah_produk from produk');
+$produk_terjual = mysqli_query($konek, 'SELECT COUNT(*) as produk_terjual from pesanan');
+
+$jumlah_produk = mysqli_fetch_assoc($produk);
+$produk_terjual = mysqli_fetch_assoc($produk_terjual);
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,20 +63,20 @@
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
-      
-      </ul>
 
-      <!-- Right navbar links -->
-      <ul class="navbar-nav ml-auto">
-        <!-- Navbar Search -->
-        <li class="nav-item">
-          <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-            <p>Logout</p>
-          </a>
-     
-        </li>
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+          <!-- Navbar Search -->
+          <li class="nav-item">
+            <a class="nav-link"  href="logout.php" >
+              <p>Logout</p>
+            </a>
 
-      </ul>
+          </li>
+
+        </ul>
+
+
     </nav>
     <!-- /.navbar -->
 
@@ -82,6 +101,9 @@
           </div>
         </div>
 
+
+
+        <!-- Sidebar Menu -->
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
@@ -96,30 +118,37 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="./menu_pesanan.html" class="nav-link active">
+                  <a href="./dashboard.php" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Dashboard</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="./menu_pesanan.php" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Menu Pesanan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="./menu_transaksi.html" class="nav-link">
+                  <a href="./menu_transaksi.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Menu transaksi </p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="./tambah_minuman.html" class="nav-link">
+                  <a href="./tambah_minuman.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Tambah minuman / produk</p>
                   </a>
                 </li>
               </ul>
             </li>
-           
+
           </ul>
-        </nav> 
-        </div>
-        
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+      <!-- /.sidebar -->
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
@@ -129,9 +158,14 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Tambah Data Minuman</h1>
+              <h1 class="m-0">Dashboard</h1>
             </div><!-- /.col -->
-
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard v1</li>
+              </ol>
+            </div><!-- /.col -->
           </div><!-- /.row -->
         </div><!-- /.container-fluid -->
       </div>
@@ -140,73 +174,44 @@
       <!-- Main content -->
       <section class="content">
         <div class="container-fluid">
-          <a href=""><button class="btn btn-primary">Kembali</button></a>
+          <!-- Small boxes (Stat box) -->
+          <div class="row">
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-warning">
+                <div class="inner">
+                  <h3><?= $produk_terjual['produk_terjual'] ?></h3>
 
-
-          <!-- general form elements -->
-          <div class="card card-primary my-4 ">
-            <div class="card-header">
-              <h3 class="card-title">Tambah Data </h3>
-            </div>
-            <!-- /.card-header -->
-            <!-- form start -->
-            <form>
-              <div class="card-body">
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Nama Minuman</label>
-                  <input type="text" class="form-control" id="exampleInputEmail1" placeholder="">
+                  <p>Produk terjual</p>
                 </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Harga</label>
-                  <input type="number" class="form-control" id="exampleInputPassword1" placeholder="">
+                <div class="icon">
+                  <i class="ion ion-bag"></i>
                 </div>
-                <div class="form-group">
-                  <label for="exampleInputFile">Gambar</label>
-                  <div class="input-group">
-                    <div class="custom-file">
-                      <input type="file" class="custom-file-input" name="gambar" id="exampleInputFile">
-                      <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                    </div>
-                    <div class="input-group-append">
-                      <span class="input-group-text">Upload</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label>Kategori</label>
-                  <select class="form-control">
-                    <option>_</option>
-                    <option>option 2</option>
-                    <option>option 3</option>
-                    <option>option 4</option>
-                    <option>option 5</option>
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label>Status</label>
-                  <select class="form-control">
-                    <option>_</option>
-                    <option>Tersedia</option>
-                    <option>Tidak tersedia</option>
-                  </select>
-                </div>
-
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
+            </div>
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-info">
+                <div class="inner">
+                  <h3><?= $jumlah_produk['jumlah_produk'] ?></h3>
 
-
-
+                  <p>Jumlah Produk</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-bag"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
           </div>
-          <!-- /.card-body -->
-
-          <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
-          </form>
+          <!-- ./col -->
         </div>
-        <!-- /.card -->
-    </div>
+        <!-- /.row -->
+
+        <!-- /.row (main row) -->
+    </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
